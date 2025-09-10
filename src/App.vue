@@ -1,11 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <v-sheet class="d-flex align-center ga-2">
+    <h1>Учетные записи</h1>
+    <v-btn density="compact" icon="mdi-plus"></v-btn>
+  </v-sheet>
 </template>
 
 <style scoped></style>
