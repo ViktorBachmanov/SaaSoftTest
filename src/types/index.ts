@@ -2,11 +2,11 @@ export interface Tag {
     text: string,
 }
 
-type AccountType = 'LDAP' | 'Локальная'
+type RecordType = 'LDAP' | 'Локальная'
 
 export interface Account {
-    tag: Array<Tag>,
-    type: AccountType,
+    tags: Array<Tag>,
+    recordType: RecordType,
     login: string,
     password: string,
 }

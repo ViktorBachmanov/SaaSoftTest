@@ -7,8 +7,8 @@ export const useAccountStore = defineStore('account', () => {
   
   function addAccount() {
     accounts.value.push({
-      tag: [],
-      type: 'LDAP',
+      tags: [],
+      recordType: 'LDAP',
       login: '',
       password: '',
     })
