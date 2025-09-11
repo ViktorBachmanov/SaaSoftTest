@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAccountStore } from '@/stores/account'
+import AccountTable from '@/components/AccountTable.vue'
 
 const { addAccount } = useAccountStore()
 </script>
@@ -13,6 +14,10 @@ const { addAccount } = useAccountStore()
       @click="addAccount"
     ></v-btn>
   </v-sheet>
+
+  <AccountTable
+    style="margin: 2em"
+  />
 </template>
 
 <style scoped></style>
