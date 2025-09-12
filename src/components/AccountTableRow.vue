@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Account, Tag } from '@/types'
+import type { RecordType } from '@/types'
 import { useTemplateRef, ref, watch } from 'vue';
 import { useAccountStore } from '@/stores/account'
 
@@ -32,12 +33,6 @@ function createDataObj(name: 'tags' | 'login' | 'password') {
   }
 }
 
-watch(() => props.account, newAcc => {
-  data.login.buffer.value = newAcc.login
-}, {
-  immediate: true
-})
-
 async function handleBlur(fieldName: 'tags' | 'login' | 'password') {
   await new Promise(res => setTimeout(res))
   const isInputValid = data[fieldName].inputRef.value?.isValid
@@ -57,8 +52,18 @@ async function handleBlur(fieldName: 'tags' | 'login' | 'password') {
 }
 
 function validateRequired() {
-  data.login.inputRef.value.validate()
-  data.password.inputRef.value.validate()
+  data.login.inputRef.value?.validate()
+  data.password.inputRef.value?.validate()
+}
+
+async function handleSelectUpdated(val: RecordType) {
+  await new Promise(res => setTimeout(res))
+
+  validateRequired()
+  
+  if (val == 'LDAP') {
+    data.password.buffer.value = props.account.password = null
+  }
 }
 </script>
 
@@ -81,10 +86,12 @@ function validateRequired() {
         :items="['LDAP', 'Локальная',]"
         variant="outlined"
         v-model="account.recordType"
-        @update:model-value="validateRequired"
+        @update:model-value="handleSelectUpdated"
       ></v-select>
     </td>
-    <td>
+    <td
+      :colspan="account.recordType == 'Локальная' ? '' : 2"
+    >
       <v-text-field 
         variant="outlined"
         v-model="data.login.buffer.value"
@@ -94,7 +101,9 @@ function validateRequired() {
         @blur="handleBlur('login')"
       ></v-text-field>
     </td>
-    <td>
+    <td
+      v-if="account.recordType == 'Локальная'"
+    >
       <v-text-field 
         variant="outlined"
         v-model="data.password.buffer.value"

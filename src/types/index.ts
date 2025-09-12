@@ -6,11 +6,11 @@ export class Tag {
     }
 }
 
-type RecordType = 'LDAP' | 'Локальная'
+export type RecordType = 'LDAP' | 'Локальная'
 
 export class Account {
     tags: Array<Tag> = []
     recordType: RecordType = 'Локальная'
     login: string = ''
-    password: string = ''
+    password: string|null = ''
 }
