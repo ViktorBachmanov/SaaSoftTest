@@ -12,8 +12,8 @@ const props = defineProps<{
 const { removeAccount } = useAccountStore()
 
 const rules = {
-  max50: (v: any) => v?.length <= 15,
-  max100: (v: any) => v?.length <= 5,
+  max50: (v: any) => v?.length <= 50,
+  max100: (v: any) => v?.length <= 100,
   required: (v: any) => !!v,
 }
 
@@ -60,7 +60,7 @@ async function handleSelectUpdated(val: RecordType) {
   await new Promise(res => setTimeout(res))
 
   validateRequired()
-  
+
   if (val == 'LDAP') {
     data.password.buffer.value = props.account.password = null
   }
