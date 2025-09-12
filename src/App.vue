@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useAccountStore } from '@/stores/account'
 import AccountTable from '@/components/AccountTable.vue'
+import { useTheme } from 'vuetify'
 
 const { addAccount } = useAccountStore()
+
+const theme = useTheme()
 </script>
 
 <template>
@@ -12,6 +15,12 @@ const { addAccount } = useAccountStore()
       density="compact" 
       icon="mdi-plus"
       @click="addAccount"
+    ></v-btn>
+
+    <v-btn
+      @click="theme.toggle()"
+      text="Toggle Light / Dark"
+      class="ml-16"
     ></v-btn>
   </v-sheet>
 
