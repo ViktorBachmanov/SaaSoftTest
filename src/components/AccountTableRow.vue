@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Account, Tag } from '@/types'
-import type { RecordType } from '@/types'
+import { RecordType } from '@/types'
 import { useTemplateRef, ref, watch } from 'vue';
 import { useAccountStore } from '@/stores/account'
 
@@ -50,7 +50,7 @@ async function handleSelectUpdated(val: RecordType) {
 
   validateRequired()
 
-  if (val == 'LDAP') {
+  if (val === RecordType.LDAP) {
     data.password.buffer.value = props.account.password = null
   }
 }
@@ -81,7 +81,7 @@ const passwordVisibe = ref(false)
       ></v-select>
     </td>
     <td
-      :colspan="account.recordType == 'Локальная' ? '' : 2"
+      :colspan="account.recordType === RecordType.Local ? '' : 2"
     >
       <v-text-field 
         variant="outlined"
@@ -93,7 +93,7 @@ const passwordVisibe = ref(false)
       ></v-text-field>
     </td>
     <td
-      v-if="account.recordType == 'Локальная'"
+      v-if="account.recordType === RecordType.Local"
     >
       <v-text-field 
         variant="outlined"

@@ -6,7 +6,11 @@ export class Tag {
     }
 }
 
-export type RecordType = 'LDAP' | 'Локальная'
+// export type RecordType = 'LDAP' | 'Локальная'
+export enum RecordType {
+    LDAP = 'LDAP',
+    Local = 'Локальная'
+}
 
 export class Account {
     tags: Array<Tag>
@@ -17,7 +21,7 @@ export class Account {
 
     constructor(
         tags: Array<Tag> = [], 
-        recordType: RecordType = 'Локальная', 
+        recordType: RecordType = RecordType.Local, 
         login: string = '', 
         password: string|null = '', 
         id: number = Date.now()
