@@ -65,6 +65,8 @@ async function handleSelectUpdated(val: RecordType) {
     data.password.buffer.value = props.account.password = null
   }
 }
+
+const passwordVisibe = ref(false)
 </script>
 
 <template>
@@ -111,6 +113,9 @@ async function handleSelectUpdated(val: RecordType) {
         :validate-on="'blur'"
         ref="password"
         @blur="handleBlur('password')"
+        :append-inner-icon="passwordVisibe ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="passwordVisibe ? 'text' : 'password'"
+        @click:append-inner="passwordVisibe = !passwordVisibe"
       ></v-text-field>
     </td>
     <td>
