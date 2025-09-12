@@ -6,7 +6,7 @@ const { addAccount } = useAccountStore()
 </script>
 
 <template>
-  <v-sheet class="d-flex align-center ga-2">
+  <v-sheet class="mt-4 ml-4 d-flex align-center ga-2">
     <h1>Учетные записи</h1>
     <v-btn 
       density="compact" 
@@ -14,6 +14,13 @@ const { addAccount } = useAccountStore()
       @click="addAccount"
     ></v-btn>
   </v-sheet>
+
+  <v-banner
+    icon="mdi-help-circle-outline"
+    lines="one"
+    text="Для указания нескольких меток логин/пароль используйте разделитель ;"
+    :stacked="false"
+  />
 
   <AccountTable
     style="margin: 2em"
