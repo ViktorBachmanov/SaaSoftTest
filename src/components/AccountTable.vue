@@ -21,6 +21,7 @@ const { accounts } = useAccountStore()
         v-for="(account, index) in accounts"
         :account
         :index
+        :key="account.id"
       />
     </tbody>
   </table>

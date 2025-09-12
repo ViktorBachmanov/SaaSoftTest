@@ -13,4 +13,5 @@ export class Account {
     recordType: RecordType = 'Локальная'
     login: string = ''
     password: string|null = ''
+    id: number = Date.now()
 }
