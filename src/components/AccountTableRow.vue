@@ -18,10 +18,7 @@ const rules = {
 }
 
 const data: any = {
-  tags: {
-    inputRef: useTemplateRef('tags'),
-    buffer: ref(props.account.tags.map(tagObj => tagObj.text).join('; '))
-  },
+  tags: createDataObj('tags'),
   login: createDataObj('login'),
   password: createDataObj('password'),
 }
@@ -29,7 +26,7 @@ const data: any = {
 function createDataObj(name: 'tags' | 'login' | 'password') {
   return {
     inputRef: useTemplateRef(name),
-    buffer: ref(props.account[name])
+    buffer: ref(props.account.getProperty(name))
   }
 }
 
@@ -37,15 +34,7 @@ async function handleBlur(fieldName: 'tags' | 'login' | 'password') {
   await new Promise(res => setTimeout(res))
   const isInputValid = data[fieldName].inputRef.value?.isValid
   if (isInputValid) {
-    switch (fieldName) {
-      default:
-        props.account[fieldName] = data[fieldName].buffer.value
-        break;
-      case 'tags':
-        const tagsArr = data.tags.buffer.value.split(/\s*(?:;|$)\s*/)
-        props.account.tags = tagsArr.map((tagText: string) => (new Tag(tagText)))
-        break;
-    }
+    props.account.setProperty(fieldName, data[fieldName].buffer.value)
   }
 
   validateRequired()
