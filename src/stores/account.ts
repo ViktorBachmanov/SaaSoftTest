@@ -13,4 +13,8 @@ export const useAccountStore = defineStore('account', () => {
     accounts,
     addAccount,
    }
+}, {
+  persist: {
+    pick: ['accounts']
+  },
 })
