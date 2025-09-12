@@ -19,7 +19,7 @@ export class Account {
         tags: Array<Tag> = [], 
         recordType: RecordType = 'Локальная', 
         login: string = '', 
-        password: string = '', 
+        password: string|null = '', 
         id: number = Date.now()
     ) {
         this.tags = tags

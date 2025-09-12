@@ -25,7 +25,7 @@ export const useAccountStore = defineStore('account', () => {
       deserialize: (data) => {
         const parsedData = JSON.parse(data)
         parsedData.accounts = parsedData.accounts.map(
-          (acc: any) => new Account(acc.tags, acc.recordType, acc.login, acc.password, acc.id)
+          (acc: Account) => new Account(acc.tags, acc.recordType, acc.login, acc.password, acc.id)
         )
         return parsedData
       },
