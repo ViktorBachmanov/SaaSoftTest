@@ -1,17 +1,12 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { Account } from '@/types'
+import { Account } from '@/types'
 
 export const useAccountStore = defineStore('account', () => {
   const accounts = ref<Account[]>([])
   
   function addAccount() {
-    accounts.value.push({
-      tags: [],
-      recordType: 'LDAP',
-      login: '',
-      password: '',
-    })
+    accounts.value.push(new Account())
   }
 
   return { 
