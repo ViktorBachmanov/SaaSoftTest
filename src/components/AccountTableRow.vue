@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { Account, Tag } from '@/types'
 import { useTemplateRef, ref, watch } from 'vue';
+import { useAccountStore } from '@/stores/account'
 
 const props = defineProps<{
-  account: Account
+  account: Account,
+  index: number,
 }>()
+
+const { removeAccount } = useAccountStore()
 
 const rules = {
   max50: (v: any) => v?.length <= 15,
@@ -99,6 +103,13 @@ function validateRequired() {
         ref="password"
         @blur="handleBlur('password')"
       ></v-text-field>
+    </td>
+    <td>
+      <v-btn 
+      density="compact" 
+      icon="mdi-trash-can-outline"
+      @click="removeAccount(index)"
+    ></v-btn>
     </td>
   </tr>
 </template>

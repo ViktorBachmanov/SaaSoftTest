@@ -18,8 +18,9 @@ const { accounts } = useAccountStore()
 
     <tbody>
       <AccountTableRow
-        v-for="account in accounts"
-        :account="account"
+        v-for="(account, index) in accounts"
+        :account
+        :index
       />
     </tbody>
   </table>

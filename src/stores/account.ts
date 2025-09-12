@@ -9,9 +9,14 @@ export const useAccountStore = defineStore('account', () => {
     accounts.value.push(new Account())
   }
 
+  function removeAccount(index: number) {
+    accounts.value.splice(index, 1)
+  }
+
   return { 
     accounts,
     addAccount,
+    removeAccount,
    }
 }, {
   persist: {
