@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import type { Account } from '@/types'
-import { useTemplateRef, ref } from 'vue';
+import { Account, Tag } from '@/types'
+import { useTemplateRef, ref, watch } from 'vue';
 
 const props = defineProps<{
   account: Account
 }>()
 
 const rules = {
-  max50: (v: any) => v.length <= 15,
-  max100: (v: any) => v.length <= 5,
+  max50: (v: any) => v?.length <= 15,
+  max100: (v: any) => v?.length <= 5,
   required: (v: any) => !!v,
 }
 
 const data: any = {
-  tags: createDataObj('tags'),
+  tags: {
+    inputRef: useTemplateRef('tags'),
+    buffer: ref(props.account.tags.map(tagObj => tagObj.text).join('; '))
+  },
   login: createDataObj('login'),
   password: createDataObj('password'),
 }
@@ -25,11 +28,25 @@ function createDataObj(name: 'tags' | 'login' | 'password') {
   }
 }
 
+watch(() => props.account, newAcc => {
+  data.login.buffer.value = newAcc.login
+}, {
+  immediate: true
+})
+
 async function handleBlur(fieldName: 'tags' | 'login' | 'password') {
   await new Promise(res => setTimeout(res))
   const isInputValid = data[fieldName].inputRef.value?.isValid
   if (isInputValid) {
-    props.account[fieldName] = data[fieldName].buffer.value
+    switch (fieldName) {
+      default:
+        props.account[fieldName] = data[fieldName].buffer.value
+        break;
+      case 'tags':
+        const tagsArr = data.tags.buffer.value.split(/\s*(?:;|$)\s*/)
+        props.account.tags = tagsArr.map((tagText: string) => (new Tag(tagText)))
+        break;
+    }
   }
 
   validateRequired()
