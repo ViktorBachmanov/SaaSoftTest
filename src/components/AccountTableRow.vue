@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Account, Tag } from '@/types'
 import { RecordType } from '@/types'
-import { useTemplateRef, ref, watch } from 'vue';
+import { useTemplateRef, ref } from 'vue';
+import type { Ref, ShallowRef } from 'vue'
 import { useAccountStore } from '@/stores/account'
+import type { VTextField, VTextarea } from 'vuetify/components';
 
 const props = defineProps<{
   account: Account,
@@ -17,15 +19,29 @@ const rules = {
   required: (v: any) => !!v,
 }
 
-const data: any = {
+type VTextFieldType = InstanceType<typeof VTextField>
+type VTextareaType = InstanceType<typeof VTextarea>
+
+type TextFieldData = {
+  inputRef: Readonly<ShallowRef<VTextFieldType | VTextareaType | null>>
+  buffer: Ref<string | null>
+}
+
+interface Data {
+  tags: TextFieldData
+  login: TextFieldData
+  password: TextFieldData
+}
+
+const data: Data = {
   tags: createDataObj('tags'),
   login: createDataObj('login'),
   password: createDataObj('password'),
 }
 
-function createDataObj(name: 'tags' | 'login' | 'password') {
+function createDataObj(name: 'tags' | 'login' | 'password'): TextFieldData {
   return {
-    inputRef: useTemplateRef(name),
+    inputRef: useTemplateRef<VTextFieldType | VTextareaType>(name),
     buffer: ref(props.account.getProperty(name))
   }
 }
@@ -34,7 +50,7 @@ async function handleBlur(fieldName: 'tags' | 'login' | 'password') {
   await new Promise(res => setTimeout(res))
   const isInputValid = data[fieldName].inputRef.value?.isValid
   if (isInputValid) {
-    props.account.setProperty(fieldName, data[fieldName].buffer.value)
+    props.account.setProperty(fieldName, data[fieldName].buffer.value || '')
   }
 
   validateRequired()
@@ -51,7 +67,8 @@ async function handleSelectUpdated(val: RecordType) {
   validateRequired()
 
   if (val === RecordType.LDAP) {
-    data.password.buffer.value = props.account.password = null
+    data.password.buffer.value = '' 
+    props.account.password = null
   }
 }
 

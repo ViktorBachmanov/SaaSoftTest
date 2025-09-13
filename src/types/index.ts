@@ -6,7 +6,6 @@ export class Tag {
     }
 }
 
-// export type RecordType = 'LDAP' | 'Локальная'
 export enum RecordType {
     LDAP = 'LDAP',
     Local = 'Локальная'
@@ -39,13 +38,13 @@ export class Account {
                 this[name] = val
                 break;
             case 'tags':
-                const tagsArr = val.split(/\s*(?:;|$)\s*/)
+                const tagsArr = val.trim().split(/\s*(?:;|$)\s*/)
                 this.tags = tagsArr.map((tagText: string) => (new Tag(tagText)))
                 break;
         }
     }
 
-    getProperty(name: 'tags' | 'login' | 'password') {
+    getProperty(name: 'tags' | 'login' | 'password'): string|null {
         switch (name) {
             default:
                 return this[name]
